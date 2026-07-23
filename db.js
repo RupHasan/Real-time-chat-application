@@ -6,7 +6,7 @@ const pool = mysql.createPool({
     user: "avnadmin",
     password: process.env.DB_PASSWORD,
     database: "defaultdb",
-    port: process.env.PORT,
+    port: 11535,
     ssl: {
         ca: fs.readFileSync("./ca.pem")
     }
