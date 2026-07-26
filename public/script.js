@@ -26,7 +26,7 @@ function escapeHtml(data) {
 socket.on("onConnect", (data) => {
     //data format, [{},{},{},...]
     const container = document.getElementById("msg-container-main");
-
+    container.innerHTML = "";
     data.forEach((item) => {
         container.innerHTML += `
         <div class="msg-container">
@@ -38,4 +38,21 @@ socket.on("onConnect", (data) => {
 
 });
 
-function sendMsg() {}
+function sendMsg() {
+    const userMsg = document.getElementById("userMsgInput").value;
+    socket.emit("sendMsg", userMsg)
+    document.getElementById("userMsgInput").value = "";
+}
+
+
+socket.on("getMsg", (data)=>{
+    const container = document.getElementById("msg-container-main");
+    data.forEach((item) => {
+        container.innerHTML += `
+        <div class="msg-container">
+            <p class="username-container">${escapeHtml(item.username)}</p>
+            <p class="msg-container-excluesive">${escapeHtml(item.msg)}</p>
+        </div>
+    `;
+    });
+})
