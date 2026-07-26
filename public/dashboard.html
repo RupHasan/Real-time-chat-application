@@ -7,6 +7,7 @@
         <title>Chat App | Rup Hasan</title>
     </head>
     <body>
+        <!-- Nothing but marketing -->
         <header>
             <h1>Welcome to chat app!</h1>
             <h2 id="autotype-container">
@@ -17,13 +18,17 @@
         
         <hr>
         
+        <!-- All the main work here -->
         <main>
-            <section id="msg-container-main"></section>
             <input type="text" id="userMsgInput" placeholder="Enter message ">
             <button id="send-msg-btn" onclick="sendMsg()">Send</button>
+            <section id="msg-container-main"></section>
         </main>
 
+
+        <!-- Script tags here -->
         <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.16/dist/typed.umd.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
         <script src="script.js"></script>
     </body>
 </html>

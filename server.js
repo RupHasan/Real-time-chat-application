@@ -13,6 +13,18 @@ const io = socketIo(server);
 const port = process.env.PORT || 3000;
 app.use(express.static("public"));
 
+app.get("/", (req,res) => {
+    res.sendFile(path.join(__dirname, "public","dashboard.html"))
+})
+
+io.on("connection", async (socket) => {
+    const conn = await pool.getConnection();
+    const [results] = await conn.query("SELECT * FROM chatapp;");
+    socket.emit("onConnect", results);
+    conn.release();
+})
+
+
 server.listen(port, () => {
     console.log(`Server is connected at port ${port}`);
 });
