@@ -19,6 +19,27 @@ let type = new Typed("#autoType", {
     loop: true
 });
 
+// Create button
+const btn = document.createElement("button");
+btn.id = "scroll-btn";
+btn.innerHTML = "⬇";
+btn.setAttribute("aria-label", "Scroll to bottom");
+document.body.appendChild(btn);
+
+const endPoint = document.getElementById("end-point");
+
+btn.addEventListener("click", () => {
+  endPoint.scrollIntoView({ behavior: "smooth" });
+});
+
+// Observer to hide/show button
+const observer = new IntersectionObserver(([entry]) => {
+  btn.classList.toggle("hidden", entry.isIntersecting);
+}, { threshold: 0.1 });
+
+observer.observe(endPoint);
+
+// Main work
 function escapeHtml(data) {
     const element = document.createElement("div");
     element.textContent = data;
