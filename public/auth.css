@@ -1,0 +1,43 @@
+/* Minimalist Auth Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, sans-serif;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+main {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  max-width: 420px;
+  width: 100%;
+}
+h2 { font-size: 1.2rem; font-weight: 400; color: #444; margin-bottom: 2rem; }
+h3 { font-size: 1rem; font-weight: 600; color: #222; margin-bottom: 1rem; }
+form { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+input {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border 0.2s;
+}
+input:focus { border-color: #4a6fa5; outline: none; }
+button {
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover { background: #3a5a8a; }
+hr { border: none; border-top: 2px solid #eee; margin: 1.5rem 0; }

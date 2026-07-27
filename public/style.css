@@ -1,0 +1,97 @@
+/* === Chat Dashboard Styles === */
+body {
+  background: #f8f9fa;
+  font-family: -apple-system, sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  color: #222;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+#autotype-container {
+  font-weight: 400;
+  color: #555;
+  margin-top: 0.3rem;
+}
+#autoType {
+  color: #4a6fa5;
+  border-bottom: 3px solid #4a6fa5;
+  padding-bottom: 2px;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #e8e8e8;
+  margin: 1.5rem 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+#userMsgInput {
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+#userMsgInput:focus {
+  border-color: #4a6fa5;
+  outline: none;
+}
+
+#send-msg-btn {
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#send-msg-btn:hover {
+  background: #3a5a8a;
+}
+
+#msg-container-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.msg-container {
+  background: white;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #f0f0f0;
+}
+.username-container {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #4a6fa5;
+  margin-bottom: 0.2rem;
+}
+.msg-container-excluesive {
+  font-size: 1rem;
+  color: #222;
+  margin: 0;
+}
