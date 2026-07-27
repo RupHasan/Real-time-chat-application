@@ -21,7 +21,9 @@ function authUser(req, res, next) {
     try {
         req.user = jwt.verify(token, process.env.JWT_PASS);
         next();
-    } catch { res.redirect("/auth"); }
+    } catch {
+        res.redirect("/auth");
+    }
 }
 
 app.get("/", authUser, (req, res) => {
@@ -48,7 +50,7 @@ app.post("/auth", async (req, res) => {
             process.env.JWT_PASS
         );
 
-        res.cookie("token", token, { httpOnly: true }).send(results);
+        res.cookie("token", token, { httpOnly: true }).redirect("/");
     } catch (err) {
         if (err.code == "ER_DUP_ENTRY") {
             res.send("username already exists");
@@ -60,46 +62,47 @@ app.post("/auth", async (req, res) => {
     }
 });
 
-app.get("/auth", (req,res)=>{
-    res.sendFile(path.join(__dirname, "public", "auth.html"))
-})
+app.get("/auth", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "auth.html"));
+});
 
 app.get("/", authUser, (req, res) => {
     res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
-io.use((socket,next)=>{
+io.use((socket, next) => {
     const cookie = socket.handshake.headers.cookie;
     const token = cookie?.match(/token=([^;]+)/)?.[1];
 
     if (!token) {
-        next(new Error("Session expired! User must log in again."))
+        next(new Error("Session expired! User must log in again."));
     } else {
         try {
             const decode = jwt.verify(token, process.env.JWT_PASS);
             socket.user = decode;
             next();
         } catch (err) {
-            next(new Error("Token is not verified. User must log in again."))
+            next(new Error("Token is not verified. User must log in again."));
         }
-})
+    }
+});
 
-
-io.on("connection", async (socket) => {
+io.on("connection", async socket => {
     const conn = await pool.getConnection();
     const [results] = await conn.query("SELECT * FROM chatapp;");
     socket.emit("onConnect", results);
     conn.release();
 
     socket.on("sendMsg", async data => {
+        const username = socket.user.username;
         const conn = await pool.getConnection();
         const [results] = await conn.query(
             "INSERT INTO chatapp (username, msg) VALUES (?, ?);",
-            ["Anonymous", data]
+            [username, data]
         );
         conn.release();
 
-        sendData = [{ username: "Anonymous", msg: data }];
+        sendData = [{ username: username, msg: data }];
         io.emit("getMsg", sendData);
     });
 });
