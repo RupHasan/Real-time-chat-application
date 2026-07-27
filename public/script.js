@@ -1,4 +1,6 @@
-const socket = io();
+const socket = io({
+	withCredentials : true
+});
 
 // Autotype aka Marketing
 const autotypeSpeed = 200;

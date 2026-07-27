@@ -17,29 +17,16 @@ app.use(express.urlencoded({ extended: true }));
 
 function authUser(req, res, next) {
     const token = req.cookies.token;
-
-    if (!token) {
-        return res.send(`
-            <script>
-                alert("User is not logged in!");
-                window.location.href = "/auth"
-            </script>
-        `);
-    } else {
-        try {
-            const decode = jwt.verify(token, process.env.JWT_PASS);
-            req.user = decode;
-            next();
-        } catch (err) {
-            return res.send(`
-                <script>
-                    alert("Token is not verified! Must log in again.");
-                    window.location.href = "/auth"
-                </script>
-            `);
-        }
-    }
+    if (!token) return res.redirect("/auth");
+    try {
+        req.user = jwt.verify(token, process.env.JWT_PASS);
+        next();
+    } catch { res.redirect("/auth"); }
 }
+
+app.get("/", authUser, (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "dashboard.html"));
+});
 
 app.post("/auth", async (req, res) => {
     let conn;
@@ -80,6 +67,23 @@ app.get("/auth", (req,res)=>{
 app.get("/", authUser, (req, res) => {
     res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
+
+io.use((socket,next)=>{
+    const cookie = socket.handshake.headers.cookie;
+    const token = cookie?.match(/token=([^;]+)/)?.[1];
+
+    if (!token) {
+        next(new Error("Session expired! User must log in again."))
+    } else {
+        try {
+            const decode = jwt.verify(token, process.env.JWT_PASS);
+            socket.user = decode;
+            next();
+        } catch (err) {
+            next(new Error("Token is not verified. User must log in again."))
+        }
+})
+
 
 io.on("connection", async (socket) => {
     const conn = await pool.getConnection();
