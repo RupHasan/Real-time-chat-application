@@ -26,10 +26,6 @@ function authUser(req, res, next) {
     }
 }
 
-app.get("/", authUser, (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "dashboard.html"));
-});
-
 app.post("/auth", async (req, res) => {
     let conn;
     try {
